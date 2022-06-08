@@ -12,17 +12,15 @@ import csv
 # Librairie pour faire des recherches par utilisation d'expression reguliere : "RegEx" (trouver le numero de tel ou mail dans une div)
 import re
 
-# Variables
+## Variables
 regex_tel = re.compile("(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$")
-regex_mail = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 url_biocoop="https://www.biocoop.fr/magasins-bio/Trouver-mon-magasin-Biocoop?postal_code=&region=&department=&page=1&ajax=1"
-url_test_business = "https://www.biocoop.fr/magasins-bio/Trouver-mon-magasin-Biocoop/Pays-de-la-Loire/Sarthe/ALTERRE-NATIVE"
 
 # Afficher la date du jour (optionelle)
 today = datetime.date.today()
 print("Date: "+str(today))
 
-# Declaration de FONCTIONS
+## FUNCTIONS
 # Check pagination ajax pour trouver le nombre de pages maximum
 def getPageAmount(url):
 	print("Fetching page amount: "+ url)
@@ -130,10 +128,11 @@ def showAllBusinessesJson():
 	with open('biocoops.json') as json_file:
 	    biocoops = json.load(json_file)
 	    for biocoop in biocoops:
-	    	print("Nom: "+str(biocoop['name']))
-	    	print("Tel: "+str(biocoop['tel']))
-	    	print("Adr: "+str(biocoop['adresse']))
-	    	print("Url: "+str(biocoop['url']))
+	    	print("Nom: "+str(biocoop.get('name')))
+	    	print("Tel: "+str(biocoop.get('tel')))
+	    	print("Mail: "+str(biocoop.get('mail')))
+	    	print("Adr: "+str(biocoop.get('adresse')))
+	    	print("Url: "+str(biocoop.get('url')))
 	    	print("====")
  
 def getAllBusinessesJson(full_list='biocoops.json'):
@@ -156,9 +155,11 @@ def createBiocoopsCSV():
 	    writer.writerows(rows)
 
 
-# TESTS
+## TESTS
 # Tester le scraper sur une url d'un business
+#url_test_business = "https://www.biocoop.fr/magasins-bio/Trouver-mon-magasin-Biocoop/Pays-de-la-Loire/Sarthe/ALTERRE-NATIVE"
 #getBusinessInfo(url_test_business)
+
 # Montrer le contenu du json dans la ligne de commande
 #showAllBusinessesJson()
 
